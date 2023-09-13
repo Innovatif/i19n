@@ -1,0 +1,32 @@
+.open-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+.open-overlay.hide-this {
+  display: none;
+}
+.open-overlay .inner {
+  width: 50%;
+  /*height: 50%;*/
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+}
+.i19n-admin td {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  vertical-align: middle;
+}
+.i19n-admin td.col-Value {
+  font-size: 0;
+  line-height: 0;
+}
+.i19n-admin td.col-Locale {
+  padding-left: 1em;
+}
+/*# sourceMappingURL=i19n.css.map */

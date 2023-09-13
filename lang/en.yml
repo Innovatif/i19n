@@ -1,0 +1,45 @@
+en:
+  Innovatif\i19n\i19n:
+    db_Locale: 'Locale'
+    db_Value: 'Value'
+    db_Entity: 'Variable'
+    db_ModulePath: 'Module'
+    IS_BACKEND: 'CMS translation'
+    IS_BACKEND_YES: 'YES'
+    IS_BACKEND_NO: 'NO'
+  Innovatif\i19n\GridField\Button\GridFieldAddEntryButton:
+    TITLE: 'Add new entry'
+    BUTTON_DO_ADD: 'Add'
+    BUTTON_DO_SAVE: 'Save changes'
+    BUTTON_DO_CLOSE: 'Close'
+    SAVED_ACTION: '{inserted} new records, {updated} records updated!'
+  Innovatif\i19n\GridField\Button\GridFieldClearCacheButton:
+    BUTTON_TEXT: 'Clear cache'
+  Innovatif\i19n\GridField\Button\GridFieldExportYMLButton:
+    DO_EXPORT: 'Export to YML'
+  Innovatif\i19n\GridField\Button\GridFieldYmlImportButton:
+    BUTTON_IMPORT_YML: 'Import YML'
+  Innovatif\i19n\GridField\Button\GridFieldExportCSVButton:
+    DO_EXPORT: 'Export to CSV'
+  Innovatif\i19n\GridField\Button\GridFieldTranslateButton:
+    BUTTON_TITLE: 'Scan code and templates and add new translations'
+    BUTTON_TEXT: 'Scan for new translations'
+    MESSAGE_TRANSLATED: 'Scanned'
+    BUTTON_DO_SCAN: 'Scan'
+    BUTTON_DO_CLOSE: 'Close'
+    SELECT_LOCALES: 'Create in locales'
+    SELECT_MODULES: 'Scan in modules'
+    TRANSLATION_SELECTION: 'Find translations for'
+    TRANSLATE_FRONT: 'Front-end'
+    TRANSLATE_CMS: 'CMS'
+  Innovatif\i19n\ModelAdmin\i19nAdmin:
+    MENUTITLE: 'i19n Editor'
+    BUTTON_SAVE_RECORDS: 'Save records'
+    ACTION_SAVED: 'Saved'
+    IMPORT_UPLOAD_YML: 'Choose YML file'
+    IMPORT_UPDATE_EXISTING: 'Update existing values'
+    BUTTON_DO_IMPORT: 'Import'
+    IMPORT_NO_YML_FILE: 'Choose YML file for import!'
+    IMPORT_NO_DATA: 'Wrong data type.'
+    SAVED_ACTION_ERROR: 'Invalid locale {yml_lang}'
+    SAVED_ACTION: 'Imported file {file_name} with {inserted} new records and {updated} records updated'

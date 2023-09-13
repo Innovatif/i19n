@@ -1,0 +1,15 @@
+---
+Name: i19n-mimeuploadvalidator
+Before: '#mimeuploadvalidator'
+Only:
+  moduleexists: 'silverstripe/mimevalidator'
+---
+SilverStripe\MimeValidator\MimeUploadValidator:
+  MimeTypes:
+    yml:
+      - 'text/vnd.yaml'
+      - 'text/yaml'
+      - 'text/plain'
+      - 'text/x-yaml'
+      - 'application/x-yaml'
+      - 'text/html'

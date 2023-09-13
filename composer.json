@@ -1,0 +1,27 @@
+{
+	"name" : "innovatif/i19n-editor",
+	"description" : "I18n editor for Silverstripe",
+	"type" : "silverstripe-vendormodule",
+	"keywords" : [
+		"silverstripe",
+		"i18n"
+	],
+	"license" : "BSD-3-Clause",
+	"authors" : [{
+			"name" : "Klemen Dolinsek",
+			"email" : "klemen.dolinsek@innovatif.com",
+			"role" : "Developer"
+		}
+	],
+	"require" : {
+		"silverstripe/framework" : "~4.0",
+		"silverstripe-terraformers/gridfield-rich-filter-header": "~2"
+	},
+	"extra" : {
+		"installer-name" : "i19n-editor",
+		"expose" : [
+			"css",
+			"javascript"
+		]
+	}
+}

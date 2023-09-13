@@ -1,0 +1,26 @@
+---
+Name: 'i19n-editor'
+After:
+  - 'i18nMessages'
+  - '#corecache'
+---
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\i18n\Messages\MessageProvider:
+    class: Innovatif\i19n\Messages\i19nMessageProvider
+  Psr\SimpleCache\CacheInterface.i19nCache:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      namespace: "i19nCache"
+Innovatif\i19n\ModelAdmin\i19nAdmin:
+  extra_requirements_javascript:
+    - 'innovatif/i19n-editor:javascript/i19n.min.js'
+  extra_requirements_css:
+    - 'innovatif/i19n-editor:css/i19n.min.css'
+Innovatif\i19n\GridField\Button\GridFieldTranslateButton:
+  preselected_modules:
+    - app
+    - themes
+Innovatif\i19n\GridField\Button\GridFieldAddEntryButton:
+  enable_multilocale_add: true
+Innovatif\i19n\Library\i19nLibrary:
+  enable_clear_cache_task: false

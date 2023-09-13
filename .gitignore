@@ -1,0 +1,14 @@
+# ignore all bckp files
+*~
+
+# ignore all hidden.
+.*
+
+# htaccess
+!.htaccess
+
+# never ignore gitignore
+!.gitignore
+
+# grunt
+grunt/node_modules/*

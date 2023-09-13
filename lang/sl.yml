@@ -1,0 +1,47 @@
+sl:
+  Innovatif\i19n\i19n:
+    summary_fields_Created: 'Ustvarjeno'
+    db_LastEdited: 'Zadnja posodobitev'
+    db_Locale: 'Jezik'
+    db_Value: 'Vrednost'
+    db_Entity: 'Spremenljivka'
+    db_ModulePath: 'Modul'
+    IS_BACKEND: 'Prevod urejevalnika'
+    IS_BACKEND_YES: 'DA'
+    IS_BACKEND_NO: 'NE'
+  Innovatif\i19n\GridField\Button\GridFieldAddEntryButton:
+    TITLE: 'Dodaj nov vnos'
+    BUTTON_DO_ADD: 'Dodaj'
+    BUTTON_DO_SAVE: 'Shrani spremembe'
+    BUTTON_DO_CLOSE: 'Zapri'
+    SAVED_ACTION: '{inserted} novih vnosov, {updated} posodobljenih vnosov!'
+  Innovatif\i19n\GridField\Button\GridFieldClearCacheButton:
+    BUTTON_TEXT: 'Počisti prepomnilnik'
+  Innovatif\i19n\GridField\Button\GridFieldExportYMLButton:
+    DO_EXPORT: 'Izvozi v YML'
+  Innovatif\i19n\GridField\Button\GridFieldYmlImportButton:
+    BUTTON_IMPORT_YML: 'Uvozi YML'
+  Innovatif\i19n\GridField\Button\GridFieldExportCSVButton:
+    DO_EXPORT: 'Izvozi v CSV'
+  Innovatif\i19n\GridField\Button\GridFieldTranslateButton:
+    BUTTON_TITLE: 'Preglej kodo in predloge, ter dodaj nove prevode'
+    BUTTON_TEXT: 'Preglej za nove prevode'
+    MESSAGE_TRANSLATED: 'Pregledano'
+    BUTTON_DO_SCAN: 'Preglej'
+    BUTTON_DO_CLOSE: 'Zapri'
+    SELECT_LOCALES: 'Dodaj v jezike'
+    SELECT_MODULES: 'Preglej kodo v modulih'
+    TRANSLATION_SELECTION: 'Poišči prevode'
+    TRANSLATE_FRONT: 'Spletne strani'
+    TRANSLATE_CMS: 'Administrativnega vmesnika'
+  Innovatif\i19n\ModelAdmin\i19nAdmin:
+    MENUTITLE: 'i19n urejevalnik'
+    BUTTON_SAVE_RECORDS: 'Shrani zapise'
+    ACTION_SAVED: 'Shranjeno'
+    IMPORT_UPLOAD_YML: 'Izberite YML datoteko'
+    IMPORT_UPDATE_EXISTING: 'Posodobi obstoječe vrednosti'
+    BUTTON_DO_IMPORT: 'Uvozi'
+    IMPORT_NO_YML_FILE: 'Izberite YML datoteko za uvoz!'
+    IMPORT_NO_DATA: 'Napačna oblika podatkov'
+    SAVED_ACTION_ERROR: 'Neveljaven locale {yml_lang}'
+    SAVED_ACTION: 'Datoteka {file_name} uvožena, {inserted} novih vnosov, {updated} posodobljenih vnosov'
