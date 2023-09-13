@@ -1,13 +1,13 @@
 # Changelog
 
 
-## 4.1.19
+## 0.9.19
 - add Created column
 
-## 4.1.18
+## 0.9.18
 - improve backend entities filter to recognize SINGULAR and PLURAL entities
 
-## 4.1.17
+## 0.9.17
 - separated functionality of collecting backend / frontend entities
 - minimized default locales to the one set as default and introduced yml setting to override
 - fixed bug that ignored default modules being set to themes and app
@@ -17,18 +17,18 @@
 - collection on backend entities can be limited to modules now
 - changed the "engine" of backend entities collection to i19nWritter
 
-## 4.1.16
+## 0.9.16
 - fix some bugs with types
 - different CSV export
 
-## 4.1.15
+## 0.9.15
 - ability to show i18n entities on frontend
 - export to CSV
 
-## 4.1.14
+## 0.9.14
 - Added task for clearing unused variables in database
 - Changed namespace for Tasks from "Innovatif\i19n" to "Innovatif\i19n\Task"
 - PSR formatted code
 
-## 4.1.13
+## 0.9.13
 - Added option to enable/disable clear cache task (default: disabled, enable for multi-server environment)
