@@ -231,7 +231,7 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
     
     protected function sanitiseClassName($class)
     {
-        return str_replace('\\', '-', $class);
+        return str_replace('\\', '-', $class ?? '');
     }
     
     protected function unsanitiseClassName($class)
