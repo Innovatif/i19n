@@ -64,5 +64,7 @@ See CHANGELOG.md
 Module works great with tractorcow/silverstripe-fluent but currently works only with versions 4.x and 5.x. Fluent version 6.x is supported by Silverstripe 5 since i18nTaskCollector cannot work with `__TRAIT__ ` constant.
 
 ## Authors and maintainers
+
 Klemen Dolinšek (t3hn0)
+
 Aljoša Balažič (aljosab)
