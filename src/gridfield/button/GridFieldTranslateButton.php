@@ -188,6 +188,13 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
     private function isClassPartOfModule($class, $module)
     {
         $classPath = ClassLoader::inst()->getManifest()->getItemPath($class);
+
+        // fix for Windows environment
+        if( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' )
+        {
+            $classPath = str_replace('/', '\\', $classPath);
+        }
+
         $modulePath = $this->modulePath($module);
 
         if (strpos($classPath, $modulePath) === 0) {
