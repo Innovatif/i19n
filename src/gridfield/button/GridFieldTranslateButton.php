@@ -180,8 +180,6 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
             $this->translate_cms_labels($list_locales, $list_modules);
         }
 
-        $gridField->setMessage(_t(__CLASS__ . '.TRANSLATED', __CLASS__ . '.TRANSLATED'));
-
         return null;
     }
 
