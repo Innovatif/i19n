@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 0.9.20
+- php 8 deprecation warning fix
+- added php requirement
+
 ## 0.9.19
 - add Created column
 
