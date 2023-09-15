@@ -3,6 +3,7 @@
 namespace Innovatif\i19n\Task;
 
 use Innovatif\i19n\i19nWritter;
+use Innovatif\i19n\TextCollection\i19nTextCollection;
 use SilverStripe\Core\Environment;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Dev\Debug;
@@ -58,8 +59,15 @@ class i19nTask extends BuildTask
 
         Environment::increaseTimeLimitTo();
 
-        foreach ($list_locales as $locale) {
+        foreach ($list_locales as $locale)
+        {
             $collector = i18nTextCollector::create($locale);
+
+            // fix for SS < 5 and Fluent >= 5.1 since SS can't handle __TRAIT__
+            if( !method_exists($collector, 'collectFromORM') )
+            {
+                $collector = i19nTextCollection::create($locale);
+            }
             // Custom writer
             $collector->setWriter(i19nWritter::create());
 
