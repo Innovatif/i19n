@@ -93,11 +93,17 @@ class i19n extends DataObject
     {
         foreach (['db', 'has_one', 'has_many', 'many_many'] as $rel) {
             if (strpos($this->Entity, '.' . $rel . '_') !== false) {
-                return _t(static::class . '.IS_BACKEND_YES', static::class . '.IS_BACKEND_YES');
+                return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
             }
         }
-
-        return _t(static::class . '.IS_BACKEND_NO', static::class . '.IS_BACKEND_NO');
+        
+        foreach (['.SINGULARNAME', '.PLURALNAME', '.PLURALS'] as $e) {
+            if (substr_compare($this->Entity, $e, -strlen($e)) === 0) {
+                return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
+            }
+        }
+        
+        return _t('Innovatif\\i19n\\i19n.IS_BACKEND_NO', 'NO');
     }
 
     /**

@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.1
+- bug fix: detect field as CMS
 
 ## 0.9.20
 - php 8 deprecation warning fix
