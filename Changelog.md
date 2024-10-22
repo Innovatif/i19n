@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0
+- Upgrade for Silverstripe 5
+
 ## 1.0.1
 - bug fix: detect field as CMS
 

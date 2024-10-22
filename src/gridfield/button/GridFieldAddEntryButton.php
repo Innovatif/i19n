@@ -2,7 +2,7 @@
 
 namespace Innovatif\i19n\GridField\Button;
 
-use Innovatif\i19n\i19n;
+use Innovatif\i19n\Model\i19n;
 use Innovatif\i19n\Library\i19nLibrary;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injectable;

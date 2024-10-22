@@ -2,7 +2,7 @@
 
 namespace Innovatif\i19n\Task;
 
-use Innovatif\i19n\i19nWritter;
+use Innovatif\i19n\Writer\i19nWriter;
 use Innovatif\i19n\TextCollection\i19nTextCollection;
 use SilverStripe\Core\Environment;
 use SilverStripe\Dev\BuildTask;

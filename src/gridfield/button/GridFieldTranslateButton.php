@@ -4,7 +4,7 @@ namespace Innovatif\i19n\GridField\Button;
 
 use Innovatif\i19n\Library\i19nLibrary;
 use Innovatif\i19n\Task\i19nTask;
-use Innovatif\i19n\i19nWritter;
+use Innovatif\i19n\Writer\i19nWriter;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;

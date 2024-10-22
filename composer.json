@@ -1,10 +1,11 @@
 {
 	"name" : "innovatif/i19n-editor",
-	"description" : "I18n editor for Silverstripe",
+	"description" : "i18n translation editor for Silverstripe",
 	"type" : "silverstripe-vendormodule",
 	"keywords" : [
 		"silverstripe",
-		"i18n"
+		"i18n",
+        "translation",
 	],
 	"license" : "BSD-3-Clause",
 	"authors" : [
@@ -15,14 +16,21 @@
 		}
 	],
 	"require" : {
-		"silverstripe/framework" : "^4 || ^5",
-		"silverstripe-terraformers/gridfield-rich-filter-header": "^2 || ^3",
-        "tractorcow/silverstripe-fluent": "^6 || ^7"
+		"silverstripe/framework" : "^5",
+		"silverstripe-terraformers/gridfield-rich-filter-header": "^3",
+        "tractorcow/silverstripe-fluent": "^7"
 	},
-	"extra" : {
-		"expose" : [
-			"css",
-			"javascript"
-		]
-	}
+    "autoload": {
+        "psr-4": {
+            "Innovatif\\i19n\\": "src"
+        }
+    },
+    "extra" : {
+        "expose" : [
+            "css",
+            "javascript"
+        ]
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Innovatif\i19n;
+namespace Innovatif\i19n\Model;
 
 use Innovatif\i19n\Cache\i19nCache;
 use Innovatif\i19n\Library\i19nLibrary;
@@ -96,13 +96,13 @@ class i19n extends DataObject
                 return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
             }
         }
-        
+
         foreach (['.SINGULARNAME', '.PLURALNAME', '.PLURALS'] as $e) {
             if (str_ends_with($this->Entity, $e)) {
                 return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
             }
         }
-        
+
         return _t('Innovatif\\i19n\\i19n.IS_BACKEND_NO', 'NO');
     }
 

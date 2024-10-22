@@ -10,7 +10,7 @@ use Innovatif\i19n\GridField\Button\GridFieldTranslateButton;
 use Innovatif\i19n\GridField\Button\GridFieldYmlImportButton;
 use Innovatif\i19n\GridField\ExtendedGridFieldEditableColumns;
 use Innovatif\i19n\GridField\GridFieldEditableDataColumns;
-use Innovatif\i19n\i19n;
+use Innovatif\i19n\Model\i19n;
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Config\Config;

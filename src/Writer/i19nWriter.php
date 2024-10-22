@@ -5,13 +5,13 @@
  * @author klemend
  */
 
-namespace Innovatif\i19n;
+namespace Innovatif\i19n\Writer;
 
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\i18n\Messages\Writer;
 
-class i19nWritter implements Writer
+class i19NWriter implements Writer
 {
     use Injectable;
 
