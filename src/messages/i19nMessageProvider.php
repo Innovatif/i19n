@@ -24,7 +24,7 @@ class i19nMessageProvider extends SymfonyMessageProvider
 
         try {
             $result = $this->geti19nTranslator()->trans($entity, $arguments, $locale);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $result = false;
         }
 

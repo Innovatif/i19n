@@ -36,7 +36,7 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
             'OpenPopupButton' => $this->OpenPopupButton($gridField),
             'ActionButtons' => $this->ActionButtons($gridField),
             'FormFields' => $this->FilterFormFields($gridField),
-            'Title' => _t(__CLASS__ . '.TITLE', __CLASS__ . '.TITLE'),
+            'Title' => _t(self::class . '.TITLE', self::class . '.TITLE'),
             'ExtraClass' => 'addnew-up',
         ]);
 
@@ -50,7 +50,7 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
         $button = new GridField_FormAction(
             $gridField,
             'open_new_popup',
-            _t(__CLASS__ . '.BUTTON_DO_ADD', __CLASS__ . '.BUTTON_DO_ADD'),
+            _t(self::class . '.BUTTON_DO_ADD', self::class . '.BUTTON_DO_ADD'),
             'translate',
             null
         );
@@ -69,7 +69,7 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
         $button = new GridField_FormAction(
             $gridField,
             'addnew',
-            _t(__CLASS__ . '.BUTTON_DO_SAVE', __CLASS__ . '.BUTTON_DO_SAVE'),
+            _t(self::class . '.BUTTON_DO_SAVE', self::class . '.BUTTON_DO_SAVE'),
             'addnew',
             null
         );
@@ -81,7 +81,7 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
         $close_button = new GridField_FormAction(
             $gridField,
             'closetranslate',
-            _t(__CLASS__ . '.BUTTON_DO_CLOSE', __CLASS__ . '.BUTTON_DO_CLOSE'),
+            _t(self::class . '.BUTTON_DO_CLOSE', self::class . '.BUTTON_DO_CLOSE'),
             'closetranslate',
             null
         );
@@ -131,19 +131,19 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
     {
         if ($actionName == 'addnew') {
             if (!$this->getMultiLocaleAddEnabled()) {
-                $list_values = [trim($data['Locale']) => trim($data['Value'])];
+                $list_values = [trim((string) $data['Locale']) => trim((string) $data['Value'])];
             } else {
                 $list_values = $data['Values'];
             }
 
-            $entity = trim($data['Entity']);
+            $entity = trim((string) $data['Entity']);
 
             $count_updates = 0;
             $count_inserts = 0;
 
             foreach ($list_values as $locale => $value) {
-                $locale = trim($locale);
-                $value = trim($value);
+                $locale = trim((string) $locale);
+                $value = trim((string) $value);
 
                 if (!$value || !$locale) {
                     continue;
@@ -160,7 +160,7 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
                     $is_update = false;
                 }
 
-                $module_path = trim($data['Module']);
+                $module_path = trim((string) $data['Module']);
 
                 $i19n->Entity = $entity;
                 $i19n->Locale = $locale;
@@ -176,7 +176,7 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
             }
 
 
-            $gridField->setMessage(_t(__CLASS__ . '.SAVED_ACTION', __CLASS__ . '.SAVED_ACTION', ['inserted' => $count_inserts, 'updated' => $count_updates]), ValidationResult::TYPE_GOOD);
+            $gridField->setMessage(_t(self::class . '.SAVED_ACTION', self::class . '.SAVED_ACTION', ['inserted' => $count_inserts, 'updated' => $count_updates]), ValidationResult::TYPE_GOOD);
         }
         return null;
     }

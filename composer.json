@@ -7,19 +7,19 @@
 		"i18n"
 	],
 	"license" : "BSD-3-Clause",
-	"authors" : [{
+	"authors" : [
+        {
 			"name" : "Klemen Dolinsek",
 			"email" : "klemen.dolinsek@innovatif.com",
 			"role" : "Developer"
 		}
 	],
 	"require" : {
-        "php": "^7 || ^8",
-		"silverstripe/framework" : "~4.0",
-		"silverstripe-terraformers/gridfield-rich-filter-header": "~2"
+		"silverstripe/framework" : "^4 || ^5",
+		"silverstripe-terraformers/gridfield-rich-filter-header": "^2 || ^3",
+        "tractorcow/silverstripe-fluent": "^6 || ^7"
 	},
 	"extra" : {
-		"installer-name" : "i19n-editor",
 		"expose" : [
 			"css",
 			"javascript"

@@ -42,7 +42,7 @@ class GridFieldExportCSVButton implements GridField_HTMLProvider, GridField_Acti
         $button = new GridField_FormAction(
             $gridField,
             'csvexport',
-            _t(__CLASS__ . '.DO_EXPORT', __CLASS__ . '.DO_EXPORT'),
+            _t(self::class . '.DO_EXPORT', self::class . '.DO_EXPORT'),
             'csvexport',
             null
         );

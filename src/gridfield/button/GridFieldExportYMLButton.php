@@ -44,7 +44,7 @@ class GridFieldExportYMLButton implements GridField_HTMLProvider, GridField_Acti
         $button = new GridField_FormAction(
             $gridField,
             'ymlexport',
-            _t(__CLASS__ . '.DO_EXPORT', __CLASS__ . '.DO_EXPORT'),
+            _t(self::class . '.DO_EXPORT', self::class . '.DO_EXPORT'),
             'ymlexport',
             null
         );
@@ -90,8 +90,7 @@ class GridFieldExportYMLButton implements GridField_HTMLProvider, GridField_Acti
      */
     public function generateExportFileData($gridField)
     {
-        if( !$gridField->getList()->count() )
-        {
+        if (!$gridField->getList()->count()) {
             return false;
         }
         $gridField->getConfig()->removeComponentsByType(GridFieldPaginator::class);
@@ -172,7 +171,6 @@ class GridFieldExportYMLButton implements GridField_HTMLProvider, GridField_Acti
 
             return HTTPRequest::send_file($fileData, $fileName, 'application/zip');
         }
-
     }
 
     public function getURLHandlers($gridField)

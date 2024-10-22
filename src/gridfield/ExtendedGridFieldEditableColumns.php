@@ -85,7 +85,7 @@ class ExtendedGridFieldEditableColumns extends GridFieldEditableDataColumns impl
             $field = clone $field;
         } else {
             $value = $grid->getDataFieldValue($record, $col);
-            $rel = (strpos($col, '.') === false); // field references a relation value
+            $rel = (!str_contains($col, '.')); // field references a relation value
             $field = ($rel) ? clone $fields->fieldByName($col) : new ReadonlyField($col);
 
             if (!$field) {
@@ -158,7 +158,7 @@ class ExtendedGridFieldEditableColumns extends GridFieldEditableDataColumns impl
             }
 
             $item->write();
-            $list->add($item, $extra);
+            $list->add($item);
         }
     }
 

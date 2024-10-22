@@ -48,7 +48,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
             'OpenPopupButton' => $this->OpenPopupButton($gridField),
             'ActionButtons' => $this->ActionButtons($gridField),
             'FormFields' => $this->FilterFormFields($gridField),
-            'Title' => _t(__CLASS__ . '.BUTTON_TITLE', __CLASS__ . '.BUTTON_TITLE'),
+            'Title' => _t(self::class . '.BUTTON_TITLE', self::class . '.BUTTON_TITLE'),
             'ExtraClass' => 'translate-up',
         ]);
 
@@ -77,23 +77,23 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $default_locales = [];
         if ($preselected_locales = $this->config()->get('preselected_locales')) {
             $default_locales = $preselected_locales;
-        } else if (class_exists('TractorCow\Fluent\Model\Locale')) {
+        } elseif (class_exists(\TractorCow\Fluent\Model\Locale::class)) {
             $default_locales[] = Locale::getDefault()->Locale;
         }
 
         $list = FieldList::create([
             OptionsetField::create('TranslateSelection')
-                ->setSource(['front' => _t(__CLASS__ . '.TRANSLATE_FRONT', __CLASS__ . '.TRANSLATE_FRONT'), 'cms' => _t(__CLASS__ . '.TRANSLATE_CMS', __CLASS__ . '.TRANSLATE_CMS')])
+                ->setSource(['front' => _t(self::class . '.TRANSLATE_FRONT', self::class . '.TRANSLATE_FRONT'), 'cms' => _t(self::class . '.TRANSLATE_CMS', self::class . '.TRANSLATE_CMS')])
                 ->setValue('front')
-                ->setTitle(_t(__CLASS__ . '.TRANSLATION_SELECTION', __CLASS__ . '.TRANSLATION_SELECTION')),
+                ->setTitle(_t(self::class . '.TRANSLATION_SELECTION', self::class . '.TRANSLATION_SELECTION')),
             ListboxField::create('TranslateButtonLocale')
                 ->setSource($all_locales)
                 ->setDefaultItems($default_locales)
-                ->setTitle(_t(__CLASS__ . '.SELECT_LOCALES', __CLASS__ . '.SELECT_LOCALES')),
+                ->setTitle(_t(self::class . '.SELECT_LOCALES', self::class . '.SELECT_LOCALES')),
             ListboxField::create('TranslateButtonModule')
                 ->setSource($modules)
                 ->setDefaultItems($default_translate_modules)
-                ->setTitle(_t(__CLASS__ . '.SELECT_MODULES', __CLASS__ . '.SELECT_MODULES'))
+                ->setTitle(_t(self::class . '.SELECT_MODULES', self::class . '.SELECT_MODULES'))
         ]);
 
         return $list;
@@ -104,7 +104,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $button = new GridField_FormAction(
             $gridField,
             'open_translate_popup',
-            _t(__CLASS__ . '.BUTTON_TEXT', __CLASS__ . '.BUTTON_TEXT'),
+            _t(self::class . '.BUTTON_TEXT', self::class . '.BUTTON_TEXT'),
             'translate',
             null
         );
@@ -124,7 +124,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $button = new GridField_FormAction(
             $gridField,
             'translate',
-            _t(__CLASS__ . '.BUTTON_DO_SCAN', __CLASS__ . '.BUTTON_DO_SCAN'),
+            _t(self::class . '.BUTTON_DO_SCAN', self::class . '.BUTTON_DO_SCAN'),
             'translate',
             null
         );
@@ -136,7 +136,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $close_button = new GridField_FormAction(
             $gridField,
             'closetranslate',
-            _t(__CLASS__ . '.BUTTON_DO_CLOSE', __CLASS__ . '.BUTTON_DO_CLOSE'),
+            _t(self::class . '.BUTTON_DO_CLOSE', self::class . '.BUTTON_DO_CLOSE'),
             'closetranslate',
             null
         );
@@ -176,7 +176,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
 
         if ($data['TranslateSelection'] == 'front') {
             i19nTask::run_translate($list_locales, $list_modules);
-        } else if ($data['TranslateSelection'] == 'cms') {
+        } elseif ($data['TranslateSelection'] == 'cms') {
             $this->translate_cms_labels($list_locales, $list_modules);
         }
 
@@ -188,14 +188,13 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $classPath = ClassLoader::inst()->getManifest()->getItemPath($class);
 
         // fix for Windows environment
-        if( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' )
-        {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $classPath = str_replace('/', '\\', $classPath);
         }
 
         $modulePath = $this->modulePath($module);
 
-        if (strpos($classPath, $modulePath) === 0) {
+        if (str_starts_with((string) $classPath, (string) $modulePath)) {
             return true;
         }
 
@@ -293,7 +292,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
                             $check = $i;
                         }
 
-                        if (strrpos($check, '.') !== false) {
+                        if (strrpos((string) $check, '.') !== false) {
                             $name = str_replace('.', '', $check);
 
                             $res[$name] = "{$ancestorClass}.summary_label_{$name}";

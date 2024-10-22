@@ -31,7 +31,7 @@ class GridFieldClearCacheButton implements GridField_ActionProvider, GridField_H
         $button = new GridField_FormAction(
             $gridField,
             'clearcache',
-            _t(__CLASS__ . '.BUTTON_TEXT', __CLASS__ . '.BUTTON_TEXT'),
+            _t(self::class . '.BUTTON_TEXT', self::class . '.BUTTON_TEXT'),
             'clearcache',
             null
         );

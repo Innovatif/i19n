@@ -32,7 +32,7 @@ class i19nLibrary
     {
         $all_locales = [];
 
-        $fluent_ClassName = 'TractorCow\Fluent\Model\Locale';
+        $fluent_ClassName = \TractorCow\Fluent\Model\Locale::class;
 
         // check if Fluent exists
         if (class_exists($fluent_ClassName)) {

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Innovatif\i19n\TextCollection;
 
@@ -49,7 +49,7 @@ class i19nTextCollection extends i18nTextCollector
             $previousToken = $thisToken;
             $thisToken = $token;
             if (is_array($token)) {
-                list($id, $text) = $token;
+                [$id, $text] = $token;
 
                 // Collect use statements so we can get fully qualified class names
                 if ($id === T_USE) {
@@ -180,17 +180,13 @@ class i19nTextCollection extends i18nTextCollector
                     if (preg_match('/^\'(?<text>.*)\'$/s', $text ?? '', $matches)) {
                         $text = preg_replace_callback(
                             '/\\\\([\\\\\'])/s', // only \ and '
-                            function ($input) {
-                                return stripcslashes($input[0] ?? '');
-                            },
+                            fn($input) => stripcslashes($input[0] ?? ''),
                             $matches['text'] ?? ''
                         );
                     } elseif (preg_match('/^\"(?<text>.*)\"$/s', $text ?? '', $matches)) {
                         $text = preg_replace_callback(
                             '/\\\\([nrtvf\\\\$"]|[0-7]{1,3}|\x[0-9A-Fa-f]{1,2})/s', // rich replacement
-                            function ($input) {
-                                return stripcslashes($input[0] ?? '');
-                            },
+                            fn($input) => stripcslashes($input[0] ?? ''),
                             $matches['text'] ?? ''
                         );
                     } else {
@@ -305,8 +301,7 @@ class i19nTextCollection extends i18nTextCollector
 
     public function getReader()
     {
-        if( !$this->reader )
-        {
+        if (!$this->reader) {
             return new YamlReader();
         }
         parent::getReader();

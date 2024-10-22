@@ -92,13 +92,13 @@ class i19n extends DataObject
     public function getIsBackend(): bool
     {
         foreach (['db', 'has_one', 'has_many', 'many_many'] as $rel) {
-            if (strpos($this->Entity, '.' . $rel . '_') !== false) {
+            if (str_contains($this->Entity, '.' . $rel . '_')) {
                 return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
             }
         }
         
         foreach (['.SINGULARNAME', '.PLURALNAME', '.PLURALS'] as $e) {
-            if (substr_compare($this->Entity, $e, -strlen($e)) === 0) {
+            if (str_ends_with($this->Entity, $e)) {
                 return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
             }
         }

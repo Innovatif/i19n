@@ -32,17 +32,17 @@ class i19nTask extends BuildTask
 
         // Get restrictions
         $restrictModules = ($request->getVar('module'))
-            ? explode(',', $request->getVar('module'))
+            ? explode(',', (string) $request->getVar('module'))
             : null;
 
 
         $locales = ($request->getVar('locale'))
-            ? explode(',', $request->getVar('locale'))
+            ? explode(',', (string) $request->getVar('locale'))
             : i18n::get_locale();
 
         static::run_translate($locales, $restrictModules, $merge);
 
-        Debug::message(__CLASS__ . " completed!", false);
+        Debug::message(self::class . " completed!", false);
     }
 
     /**
@@ -59,13 +59,11 @@ class i19nTask extends BuildTask
 
         Environment::increaseTimeLimitTo();
 
-        foreach ($list_locales as $locale)
-        {
+        foreach ($list_locales as $locale) {
             $collector = i18nTextCollector::create($locale);
 
             // fix for SS < 5 and Fluent >= 5.1 since SS can't handle __TRAIT__
-            if( !method_exists($collector, 'collectFromORM') )
-            {
+            if (!method_exists($collector, 'collectFromORM')) {
                 $collector = i19nTextCollection::create($locale);
             }
             // Custom writer
