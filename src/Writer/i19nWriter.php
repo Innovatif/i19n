@@ -12,7 +12,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\i18n\Messages\Writer;
 
-class i19NWriter implements Writer
+class i19nWriter implements Writer
 {
     use Injectable;
 
