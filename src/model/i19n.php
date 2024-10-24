@@ -79,7 +79,7 @@ class i19n extends DataObject
         $locsource = GroupedList::create(i19n::get())->GroupedBy('Locale')->map('Locale', 'Locale');
         $fields->dataFieldByName('Locale')
             ->setSource($locsource)
-            ->setEmptyString(_t('i19n.Select', 'Select'));
+            ->setEmptyString(_t(i19n::class . '.Select', i19n::class . '.Select'));
 
         return SearchContext::create(
             i19n::class,
