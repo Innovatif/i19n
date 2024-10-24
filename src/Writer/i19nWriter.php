@@ -7,6 +7,7 @@
 
 namespace Innovatif\i19n\Writer;
 
+use Innovatif\i19n\Model\i19n;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\i18n\Messages\Writer;
@@ -19,6 +20,9 @@ class i19NWriter implements Writer
     {
         // reverse engineer it
         $module_path = substr($path, strlen(Director::baseFolder() . '/'));
+
+        // always use linux style paths
+        $module_path = str_replace(DIRECTORY_SEPARATOR, '/', $module_path);
 
         foreach ($messages as $entity => $value) {
             $entry = i19n::get()->filter([

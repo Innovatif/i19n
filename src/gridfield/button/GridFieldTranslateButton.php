@@ -17,12 +17,12 @@ use SilverStripe\Forms\GridField\GridField_ActionProvider;
 use SilverStripe\Forms\GridField\GridField_FormAction;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\ListboxField;
+use SilverStripe\Forms\OptionsetField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
 use TractorCow\Fluent\Model\Locale;
-use SilverStripe\Forms\OptionsetField;
 
 class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HTMLProvider
 {
@@ -60,7 +60,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
     protected function FilterFormFields($gridField)
     {
         $all_locales = i19nLibrary::ListLocales();
-        $modules = i19nLibrary::SupportedModules();
+        $modules = array_combine(array_keys(i19nLibrary::getModulesAndThemes()), array_keys(i19nLibrary::getModulesAndThemes()));
 
         /**
          * Offer preselected modules
@@ -71,6 +71,10 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         foreach ($suggested_modules as $suggested_module) {
             if (isset($modules[$suggested_module])) {
                 array_push($default_translate_modules, $suggested_module);
+            } elseif ($suggested_module == 'themes:*' || $suggested_module == 'themes') {
+                $default_translate_modules = array_merge($default_translate_modules, array_filter($modules, function($v) {
+                    return str_starts_with($v, 'themes:');
+                }));
             }
         }
 
@@ -82,10 +86,6 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         }
 
         $list = FieldList::create([
-            OptionsetField::create('TranslateSelection')
-                ->setSource(['front' => _t(self::class . '.TRANSLATE_FRONT', self::class . '.TRANSLATE_FRONT'), 'cms' => _t(self::class . '.TRANSLATE_CMS', self::class . '.TRANSLATE_CMS')])
-                ->setValue('front')
-                ->setTitle(_t(self::class . '.TRANSLATION_SELECTION', self::class . '.TRANSLATION_SELECTION')),
             ListboxField::create('TranslateButtonLocale')
                 ->setSource($all_locales)
                 ->setDefaultItems($default_locales)
@@ -170,15 +170,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $list_locales = $data['TranslateButtonLocale'];
         $list_modules = $data['TranslateButtonModule'];
 
-        if (!array_key_exists('TranslateSelection', $data) || !$data['TranslateSelection']) {
-            return null;
-        }
-
-        if ($data['TranslateSelection'] == 'front') {
-            i19nTask::run_translate($list_locales, $list_modules);
-        } elseif ($data['TranslateSelection'] == 'cms') {
-            $this->translate_cms_labels($list_locales, $list_modules);
-        }
+        i19nTask::run_translate($list_locales, $list_modules);
 
         return null;
     }
@@ -209,7 +201,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
 
     private function translate_cms_labels($list_locales, $list_modules)
     {
-        $writter = new i19nWritter();
+        $writer = new i19nWriter();
 
         $classes = [];
         foreach (ClassInfo::subclassesFor(DataObject::class) as $class) {
@@ -231,7 +223,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
 
                 if (count($labels)) {
                     foreach ($list_locales as $locale) {
-                        $writter->write($labels, $locale, $this->modulePath($module));
+                        $writer->write($labels, $locale, $this->modulePath($module));
                     }
                 }
             }

@@ -3,7 +3,6 @@
 namespace Innovatif\i19n\Task;
 
 use Innovatif\i19n\Writer\i19nWriter;
-use Innovatif\i19n\TextCollection\i19nTextCollection;
 use SilverStripe\Core\Environment;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Dev\Debug;
@@ -17,7 +16,7 @@ class i19nTask extends BuildTask
     protected $description = "
 		Traverses through files in order to collect the 'entity master tables'
 		stored in each module.
-        
+
 		Parameters:
 		- locale: One or more locales to limit collection (comma-separated)
 		- module: One or more modules to limit collection (comma-separated)
@@ -62,12 +61,8 @@ class i19nTask extends BuildTask
         foreach ($list_locales as $locale) {
             $collector = i18nTextCollector::create($locale);
 
-            // fix for SS < 5 and Fluent >= 5.1 since SS can't handle __TRAIT__
-            if (!method_exists($collector, 'collectFromORM')) {
-                $collector = i19nTextCollection::create($locale);
-            }
             // Custom writer
-            $collector->setWriter(i19nWritter::create());
+            $collector->setWriter(i19nWriter::create());
 
             $collector->run($restrictModules, $merge);
         }

@@ -2,8 +2,8 @@
 
 namespace Innovatif\i19n\GridField\Button;
 
-use Innovatif\i19n\Model\i19n;
 use Innovatif\i19n\Library\i19nLibrary;
+use Innovatif\i19n\Model\i19n;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Forms\DropdownField;
@@ -99,7 +99,7 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
     protected function FilterFormFields($gridField)
     {
         $all_locales = i19nLibrary::ListLocales();
-        $modules = i19nLibrary::SupportedModules();
+        $modules = array_combine(array_keys(i19nLibrary::getModulesAndThemes()), array_keys(i19nLibrary::getModulesAndThemes()));
 
         $fields = [
             TextField::create('Entity')->setTitle(singleton(i19n::class)->fieldLabel('Entity')),
@@ -161,6 +161,9 @@ class GridFieldAddEntryButton implements GridField_ActionProvider, GridField_HTM
                 }
 
                 $module_path = trim((string) $data['Module']);
+
+                // always use path for themes
+                $module_path = str_replace('themes:', 'themes/', $module_path);
 
                 $i19n->Entity = $entity;
                 $i19n->Locale = $locale;

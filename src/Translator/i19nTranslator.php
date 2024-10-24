@@ -4,8 +4,8 @@ namespace Innovatif\i19n\Translator;
 
 use Innovatif\i19n\Cache\i19nCache;
 use Innovatif\i19n\Model\i19n;
-use SilverStripe\Security\Permission;
 use SilverStripe\i18n\Data\Intl\IntlLocales;
+use SilverStripe\Security\Permission;
 
 class i19nTranslator
 {

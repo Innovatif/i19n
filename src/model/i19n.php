@@ -26,7 +26,8 @@ class i19n extends DataObject
         'Value',
         'IsBackend',
         'Locale',
-        'Created'
+        'ModulePath',
+        'Created',
     ];
 
     private static $default_sort = 'Entity ASC';
@@ -38,7 +39,8 @@ class i19n extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        $fields->replaceField('ModulePath', DropdownField::create('ModulePath')->setTitle($this->fieldLabel('ModulePath'))->setSource(i19nLibrary::SupportedModules()));
+        $modules = array_combine(array_keys(i19nLibrary::getModulesAndThemes()), array_keys(i19nLibrary::getModulesAndThemes()));
+        $fields->replaceField('ModulePath', DropdownField::create('ModulePath')->setTitle($this->fieldLabel('ModulePath'))->setSource($modules));
 
         $fields->dataFieldByName('Locale')->setReadonly(true);
 
@@ -66,7 +68,8 @@ class i19n extends DataObject
         $filters = [
             'Entity' => PartialMatchFilter::create('Entity'),
             'Locale' => PartialMatchFilter::create('Locale'),
-            'Value' => PartialMatchFilter::create('Value')
+            'Value' => PartialMatchFilter::create('Value'),
+            'ModulePath' => PartialMatchFilter::create('ModulePath'),
         ];
 
         $fields = $this->scaffoldSearchFields([
@@ -87,23 +90,22 @@ class i19n extends DataObject
 
     /**
      * Simple method to determine if current translation is used in is backend or frontend.
-     * @return bool
      */
-    public function getIsBackend(): bool
+    public function getIsBackend(): string
     {
         foreach (['db', 'has_one', 'has_many', 'many_many'] as $rel) {
             if (str_contains($this->Entity, '.' . $rel . '_')) {
-                return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
+                return _t(i19n::class . '.IS_BACKEND_YES', i19n::class . '.IS_BACKEND_YES');
             }
         }
 
-        foreach (['.SINGULARNAME', '.PLURALNAME', '.PLURALS'] as $e) {
+        foreach (['.SINGULARNAME', '.PLURALNAME', '.PLURALS', '.DESCRIPTION', '.MENUTITLE'] as $e) {
             if (str_ends_with($this->Entity, $e)) {
-                return _t('Innovatif\\i19n\\i19n.IS_BACKEND_YES', 'YES');
+                return _t(i19n::class . '.IS_BACKEND_YES', i19n::class . '.IS_BACKEND_YES');
             }
         }
 
-        return _t('Innovatif\\i19n\\i19n.IS_BACKEND_NO', 'NO');
+        return _t(i19n::class . '.IS_BACKEND_NO', i19n::class . '.IS_BACKEND_NO');
     }
 
     /**

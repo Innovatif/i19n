@@ -3,11 +3,13 @@
 namespace Innovatif\i19n\Library;
 
 use Innovatif\i19n\Cache\i19nCache;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Core\Manifest\Module;
 use SilverStripe\Core\Manifest\ModuleLoader;
+use SilverStripe\Core\Path;
 use SilverStripe\i18n\i18n;
 use SilverStripe\i18n\Messages\Symfony\FlushInvalidatedResource;
+use SilverStripe\i18n\TextCollection\i18nTextCollector;
 
 /**
  * Support library
@@ -25,6 +27,13 @@ class i19nLibrary
     private static $enable_clear_cache_task = false;
 
     /**
+     * List all modules and themes
+     *
+     * @var array
+     */
+    private static $modulesAndThemes;
+
+    /**
      * Load available locales
      * @return array|string[]
      */
@@ -36,9 +45,9 @@ class i19nLibrary
 
         // check if Fluent exists
         if (class_exists($fluent_ClassName)) {
-            $table_name = Config::inst()->get($fluent_ClassName, 'table_name');
-            $list_locales = $fluent_ClassName::get()->sort('"' . $table_name . '"."IsGlobalDefault" DESC, "' . $table_name . '"."Locale" ASC');
-            $all_locales = $list_locales->map('Locale', 'Title')->toArray();
+            $all_locales = $fluent_ClassName::get()->sort([
+                "IsGlobalDefault" => "DESC", "Locale" => "ASC"
+            ])->map('Locale', 'Title')->toArray();
         }
 
         // fallback if no locales are added or fluent doesn't exist - use current locale
@@ -52,20 +61,25 @@ class i19nLibrary
         return $all_locales;
     }
 
-    /**
-     * Load supported modules/extensions
-     * @return \SilverStripe\Core\Manifest\Module[]
-     */
-    public static function SupportedModules(): array
+    public static function getModulesAndThemes(): array
     {
-        // load modules
-        $list_all_modules = ModuleLoader::inst()->getManifest()->getModules();
-        $modules = [];
-        foreach ($list_all_modules as $module_name => $module_manifest) {
-            $modules[$module_name] = $module_name;
+        if (!self::$modulesAndThemes) {
+            $modules = ModuleLoader::inst()->getManifest()->getModules();
+            // load themes as modules
+            $themes = [];
+            if (is_dir(THEMES_PATH)) {
+                $themes = array_diff(scandir(THEMES_PATH), ['..', '.']);
+            }
+            if (!empty($themes)) {
+                foreach ($themes as $theme) {
+                    if (is_dir(Path::join(THEMES_PATH, $theme))) {
+                        $modules['themes:' . $theme] = new Module(Path::join(THEMES_PATH, $theme), BASE_PATH);
+                    }
+                }
+            }
+            self::$modulesAndThemes = $modules;
         }
-
-        return $modules;
+        return self::$modulesAndThemes;
     }
 
     /**

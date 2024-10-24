@@ -1,11 +1,13 @@
 # i19n - Innternationalization editor
+
 I19n enables you to collect and edit system translations used on Silverstripe website (both backend and frontend).
 
 ## Requirements
 
-- silverstripe/framework ^4 || ^5
-- silverstripe-terraformers/gridfield-rich-filter-header ^2 || ^3
-- tractorcow/silverstripe-fluent ^6 || ^7
+- silverstripe/framework ^5.1
+- silverstripe-terraformers/gridfield-rich-filter-header ^3
+- tractorcow/silverstripe-fluent ^7
+- symbiote/silverstripe-gridfieldextensions ^4
 
 ## Installation
 
@@ -15,12 +17,6 @@ I19n enables you to collect and edit system translations used on Silverstripe we
 For more see Configuration section.
 
 ## Configuration
-
-### Translating themes folder
-
-Silverstripe can treat folders as module if folder contains `_config.php`. You need to create empty config file inside `/themes` folder in order for text translator to be able to scan your templates.
-Create empty file: `<your_project>/themes/_config.php`
-Run `?flush=1`
 
 ### Default preselected modules
 
@@ -57,7 +53,6 @@ Clear cache action now creates object in database which will tell all servers to
 	- only `.yml` files are currently supported so you can upload one language per import
 	- language must exist in Fluent
 - collector task for new translations
-	- you can target CMS translations only or template translations only (this won't collect `db_`/`has_many_`/... field labels)
 - you can manually add multiple translations for single i18n variable at once
 	- can be disabled
 - clear cache after changes

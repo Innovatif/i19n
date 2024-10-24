@@ -13,6 +13,7 @@ use Innovatif\i19n\GridField\GridFieldEditableDataColumns;
 use Innovatif\i19n\Model\i19n;
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Injector\Injector;
@@ -29,15 +30,18 @@ use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 use Terraformers\RichFilterHeader\Form\GridField\RichFilterHeader;
+use Terraformers\RichFilterHeader\Form\GridField\RichSortableHeader;
 use TractorCow\Fluent\Model\Locale;
 
 class i19nAdmin extends LeftAndMain implements PermissionProvider
@@ -45,7 +49,7 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
     use Configurable;
 
     private static $menu_title = 'i19n Editor';
-    
+
     private static $menu_icon_class = 'font-icon-language';
 
     private static $url_segment = 'i19n-editor';
@@ -98,9 +102,11 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
         $fieldConfig->removeComponentsByType(GridFieldDataColumns::class);
         $fieldConfig->addComponent(GridFieldEditableDataColumns::create(), GridFieldEditButton::class);
 
-        $fieldConfig->removeComponentsByType(GridFieldFilterHeader::class);
+        $fieldConfig->removeComponentsByType([
+            GridFieldFilterHeader::class,
+        ]);
 
-        $filter = new RichFilterHeader();
+        $filter = RichFilterHeader::create();
         $filter
             ->setFilterConfig(
                 [
@@ -116,7 +122,8 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
                     ],
                     'Locale' => [
                         'filter' => 'ExactMatchFilter'
-                    ]
+                    ],
+                    'ModulePath',
                 ]
             )
             ->setFilterFields(
@@ -125,7 +132,9 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
                         1 => _t(i19n::class . '.IS_BACKEND_NO', i19n::class . '.IS_BACKEND_NO'),
                         2 => _t(i19n::class . '.IS_BACKEND_YES', i19n::class . '.IS_BACKEND_YES')
                     ])->setEmptyString('-'),
-                    'Locale' => DropdownField::create('', '', Locale::get()->map('Locale', 'Title'))->setEmptyString('-')
+                    'Locale' => DropdownField::create('', '',
+                        Locale::get()->map('Locale', 'Title')
+                    )->setEmptyString('-'),
                 ]
             )
             ->setFilterMethods(
@@ -138,7 +147,7 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
                     },
                     'IsBackend' => function (DataList $list, $name, $value) {
                         $partial = ['.db_', '.has_one_', '.has_many_', '.many_many_', '.belongs_many_many_', '.PLURALS.'];
-                        $endsWith = ['.SINGULARNAME', '.PLURALNAME', '.PLURALS'];
+                        $endsWith = ['.SINGULARNAME', '.PLURALNAME', '.PLURALS', '.DESCRIPTION', '.MENUTITLE'];
 
                         if ($value == 2) {
                             $list = $list->filterAny(['Entity:EndsWith' => $endsWith, 'Entity:PartialMatch' => $partial]);
@@ -152,12 +161,19 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
                 ]
             );
 
-        $fieldConfig->addComponent($filter);
+        $fieldConfig->addComponent($filter, GridFieldPaginator::class);
 
+        $fieldConfig->removeComponentsByType([
+            GridFieldAddNewButton::class,
+            GridFieldSortableHeader::class,
+        ]);
+        $fieldConfig->addComponent(Injector::inst()->get(RichSortableHeader::class));
 
-        // GridFieldPaginator has to be added after filter header for it to function correctly
-        $fieldConfig->removeComponentsByType([GridFieldPaginator::class, GridFieldAddNewButton::class]);
-        $fieldConfig->addComponent(Injector::inst()->get(GridFieldPaginator::class));
+        if (!Permission::check('ADMIN')) {
+            $fieldConfig->removeComponentsByType([
+                GridFieldEditButton::class,
+            ]);
+        }
 
         $fieldConfig->addComponent(GridFieldAddEntryButton::create('buttons-before-left'));
         $fieldConfig->addComponent(GridFieldTranslateButton::create('buttons-before-left'));
@@ -238,7 +254,7 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
         return str_replace('-', '\\', $class);
     }
 
-    public function save($data, $form)
+    public function save(array $data, Form $form): HTTPResponse
     {
         $request = $this->getRequest();
 
@@ -267,7 +283,7 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
 
         $actions = FieldList::create(
             FormAction::create('importYML', _t(self::class . '.BUTTON_DO_IMPORT', self::class . '.BUTTON_DO_IMPORT'))
-            ->addExtraClass('btn btn-outline-secondary font-icon-upload')
+                ->addExtraClass('btn btn-outline-secondary font-icon-upload')
         );
 
         $required = RequiredFields::create([

@@ -1,7 +1,12 @@
 # Changelog
 
 ## 2.0.0
-- Upgrade for Silverstripe 5
+- upgrade for Silverstripe 5
+- upgrade for PHP 8.3
+- remove frontend/backend selection for translation collection
+- add translation collection for themes
+- add filter by module path
+- add German translation file
 
 ## 1.0.1
 - bug fix: detect field as CMS
@@ -25,7 +30,7 @@
 - fixed filtering when NO is selected for backend entities
 - improved search on entities with namespace ((double)backslash problem)
 - collection on backend entities can be limited to modules now
-- changed the "engine" of backend entities collection to i19nWritter
+- changed the "engine" of backend entities collection to i19nWriter
 
 ## 0.9.16
 - fix some bugs with types
