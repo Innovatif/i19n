@@ -2,7 +2,7 @@
 
 namespace Innovatif\i19n\Task;
 
-use Innovatif\i19n\i19n;
+use Innovatif\i19n\Model\i19n;
 use SilverStripe\Dev\BuildTask;
 
 class i19nClearUntranslatedTask extends BuildTask

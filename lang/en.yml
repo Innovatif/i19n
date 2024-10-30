@@ -1,5 +1,5 @@
 en:
-  Innovatif\i19n\i19n:
+  Innovatif\i19n\Model\i19n:
     db_Locale: 'Locale'
     db_Value: 'Value'
     db_Entity: 'Variable'
@@ -42,4 +42,4 @@ en:
     IMPORT_NO_YML_FILE: 'Choose YML file for import!'
     IMPORT_NO_DATA: 'Wrong data type.'
     SAVED_ACTION_ERROR: 'Invalid locale {yml_lang}'
-    SAVED_ACTION: 'Imported file {file_name} with {inserted} new records and {updated} records updated'
+    SAVED_ACTION: 'Imported file {file_name} with {inserted} new and {updated} updated records.'

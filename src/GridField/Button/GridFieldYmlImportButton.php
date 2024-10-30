@@ -31,7 +31,7 @@ class GridFieldYmlImportButton extends GridFieldImportButton
         $button = new GridField_FormAction(
             $gridField,
             'import',
-            _t(__CLASS__ . '.BUTTON_IMPORT_YML', __CLASS__ . '.BUTTON_IMPORT_YML'),
+            _t(self::class . '.BUTTON_IMPORT_YML', self::class . '.BUTTON_IMPORT_YML'),
             'import',
             null
         );

@@ -1,0 +1,45 @@
+de:
+  Innovatif\i19n\Model\i19n:
+    db_Locale: 'Gebietsschema'
+    db_Value: 'Wert'
+    db_Entity: 'Variable'
+    db_ModulePath: 'Modul'
+    IS_BACKEND: 'CMS Übersetzung'
+    IS_BACKEND_YES: 'Ja'
+    IS_BACKEND_NO: 'Nein'
+  Innovatif\i19n\GridField\Button\GridFieldAddEntryButton:
+    TITLE: 'Eintrag hinzufügen'
+    BUTTON_DO_ADD: 'Hinzufügen'
+    BUTTON_DO_SAVE: 'Speichern'
+    BUTTON_DO_CLOSE: 'Schließen'
+    SAVED_ACTION: '{inserted} neue Einträge, {updated} Einträge aktualisiert!'
+  Innovatif\i19n\GridField\Button\GridFieldClearCacheButton:
+    BUTTON_TEXT: 'Cache leeren'
+  Innovatif\i19n\GridField\Button\GridFieldExportYMLButton:
+    DO_EXPORT: 'YML exportieren'
+  Innovatif\i19n\GridField\Button\GridFieldYmlImportButton:
+    BUTTON_IMPORT_YML: 'YML importieren'
+  Innovatif\i19n\GridField\Button\GridFieldExportCSVButton:
+    DO_EXPORT: 'CSV exportieren'
+  Innovatif\i19n\GridField\Button\GridFieldTranslateButton:
+    BUTTON_TITLE: 'Code und Vorlagen durchsuchen und neue Übersetzungen erstellen'
+    BUTTON_TEXT: 'Nach neuen Übersetzungen suchen'
+    MESSAGE_TRANSLATED: 'gescannt'
+    BUTTON_DO_SCAN: 'Scannen'
+    BUTTON_DO_CLOSE: 'Schließen'
+    SELECT_LOCALES: 'In Gebietsschemata erstellen'
+    SELECT_MODULES: 'In Modulen erstellen'
+    TRANSLATION_SELECTION: 'Übersetzung finden für'
+    TRANSLATE_FRONT: 'Frontend'
+    TRANSLATE_CMS: 'CMS'
+  Innovatif\i19n\ModelAdmin\i19nAdmin:
+    MENUTITLE: 'i19n Editor'
+    BUTTON_SAVE_RECORDS: 'Einträge speichern'
+    ACTION_SAVED: 'Gespeichert'
+    IMPORT_UPLOAD_YML: 'YML Datei auswählen'
+    IMPORT_UPDATE_EXISTING: 'Bestehende Werte aktualisieren'
+    BUTTON_DO_IMPORT: 'Importieren'
+    IMPORT_NO_YML_FILE: 'Bitte YML Datei für den Import auswählen!'
+    IMPORT_NO_DATA: 'Falscher Datentyp'
+    SAVED_ACTION_ERROR: 'Ungültiges Gebietsschema {yml_lang}'
+    SAVED_ACTION: 'Datei {file_name} mit {inserted} neuen und {updated} aktualisierten Einträgen importiert.'

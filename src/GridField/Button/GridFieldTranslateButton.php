@@ -4,7 +4,7 @@ namespace Innovatif\i19n\GridField\Button;
 
 use Innovatif\i19n\Library\i19nLibrary;
 use Innovatif\i19n\Task\i19nTask;
-use Innovatif\i19n\i19nWritter;
+use Innovatif\i19n\Writer\i19nWriter;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;
@@ -17,12 +17,12 @@ use SilverStripe\Forms\GridField\GridField_ActionProvider;
 use SilverStripe\Forms\GridField\GridField_FormAction;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\ListboxField;
+use SilverStripe\Forms\OptionsetField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
 use TractorCow\Fluent\Model\Locale;
-use SilverStripe\Forms\OptionsetField;
 
 class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HTMLProvider
 {
@@ -48,7 +48,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
             'OpenPopupButton' => $this->OpenPopupButton($gridField),
             'ActionButtons' => $this->ActionButtons($gridField),
             'FormFields' => $this->FilterFormFields($gridField),
-            'Title' => _t(__CLASS__ . '.BUTTON_TITLE', __CLASS__ . '.BUTTON_TITLE'),
+            'Title' => _t(self::class . '.BUTTON_TITLE', self::class . '.BUTTON_TITLE'),
             'ExtraClass' => 'translate-up',
         ]);
 
@@ -60,7 +60,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
     protected function FilterFormFields($gridField)
     {
         $all_locales = i19nLibrary::ListLocales();
-        $modules = i19nLibrary::SupportedModules();
+        $modules = array_combine(array_keys(i19nLibrary::getModulesAndThemes()), array_keys(i19nLibrary::getModulesAndThemes()));
 
         /**
          * Offer preselected modules
@@ -71,29 +71,29 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         foreach ($suggested_modules as $suggested_module) {
             if (isset($modules[$suggested_module])) {
                 array_push($default_translate_modules, $suggested_module);
+            } elseif ($suggested_module == 'themes:*' || $suggested_module == 'themes') {
+                $default_translate_modules = array_merge($default_translate_modules, array_filter($modules, function($v) {
+                    return str_starts_with($v, 'themes:');
+                }));
             }
         }
 
         $default_locales = [];
         if ($preselected_locales = $this->config()->get('preselected_locales')) {
             $default_locales = $preselected_locales;
-        } else if (class_exists('TractorCow\Fluent\Model\Locale')) {
+        } elseif (class_exists(\TractorCow\Fluent\Model\Locale::class)) {
             $default_locales[] = Locale::getDefault()->Locale;
         }
 
         $list = FieldList::create([
-            OptionsetField::create('TranslateSelection')
-                ->setSource(['front' => _t(__CLASS__ . '.TRANSLATE_FRONT', __CLASS__ . '.TRANSLATE_FRONT'), 'cms' => _t(__CLASS__ . '.TRANSLATE_CMS', __CLASS__ . '.TRANSLATE_CMS')])
-                ->setValue('front')
-                ->setTitle(_t(__CLASS__ . '.TRANSLATION_SELECTION', __CLASS__ . '.TRANSLATION_SELECTION')),
             ListboxField::create('TranslateButtonLocale')
                 ->setSource($all_locales)
                 ->setDefaultItems($default_locales)
-                ->setTitle(_t(__CLASS__ . '.SELECT_LOCALES', __CLASS__ . '.SELECT_LOCALES')),
+                ->setTitle(_t(self::class . '.SELECT_LOCALES', self::class . '.SELECT_LOCALES')),
             ListboxField::create('TranslateButtonModule')
                 ->setSource($modules)
                 ->setDefaultItems($default_translate_modules)
-                ->setTitle(_t(__CLASS__ . '.SELECT_MODULES', __CLASS__ . '.SELECT_MODULES'))
+                ->setTitle(_t(self::class . '.SELECT_MODULES', self::class . '.SELECT_MODULES'))
         ]);
 
         return $list;
@@ -104,7 +104,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $button = new GridField_FormAction(
             $gridField,
             'open_translate_popup',
-            _t(__CLASS__ . '.BUTTON_TEXT', __CLASS__ . '.BUTTON_TEXT'),
+            _t(self::class . '.BUTTON_TEXT', self::class . '.BUTTON_TEXT'),
             'translate',
             null
         );
@@ -124,7 +124,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $button = new GridField_FormAction(
             $gridField,
             'translate',
-            _t(__CLASS__ . '.BUTTON_DO_SCAN', __CLASS__ . '.BUTTON_DO_SCAN'),
+            _t(self::class . '.BUTTON_DO_SCAN', self::class . '.BUTTON_DO_SCAN'),
             'translate',
             null
         );
@@ -136,7 +136,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $close_button = new GridField_FormAction(
             $gridField,
             'closetranslate',
-            _t(__CLASS__ . '.BUTTON_DO_CLOSE', __CLASS__ . '.BUTTON_DO_CLOSE'),
+            _t(self::class . '.BUTTON_DO_CLOSE', self::class . '.BUTTON_DO_CLOSE'),
             'closetranslate',
             null
         );
@@ -170,15 +170,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $list_locales = $data['TranslateButtonLocale'];
         $list_modules = $data['TranslateButtonModule'];
 
-        if (!array_key_exists('TranslateSelection', $data) || !$data['TranslateSelection']) {
-            return null;
-        }
-
-        if ($data['TranslateSelection'] == 'front') {
-            i19nTask::run_translate($list_locales, $list_modules);
-        } else if ($data['TranslateSelection'] == 'cms') {
-            $this->translate_cms_labels($list_locales, $list_modules);
-        }
+        i19nTask::run_translate($list_locales, $list_modules);
 
         return null;
     }
@@ -188,14 +180,13 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
         $classPath = ClassLoader::inst()->getManifest()->getItemPath($class);
 
         // fix for Windows environment
-        if( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' )
-        {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $classPath = str_replace('/', '\\', $classPath);
         }
 
         $modulePath = $this->modulePath($module);
 
-        if (strpos($classPath, $modulePath) === 0) {
+        if (str_starts_with((string) $classPath, (string) $modulePath)) {
             return true;
         }
 
@@ -210,7 +201,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
 
     private function translate_cms_labels($list_locales, $list_modules)
     {
-        $writter = new i19nWritter();
+        $writer = new i19nWriter();
 
         $classes = [];
         foreach (ClassInfo::subclassesFor(DataObject::class) as $class) {
@@ -232,7 +223,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
 
                 if (count($labels)) {
                     foreach ($list_locales as $locale) {
-                        $writter->write($labels, $locale, $this->modulePath($module));
+                        $writer->write($labels, $locale, $this->modulePath($module));
                     }
                 }
             }
@@ -293,7 +284,7 @@ class GridFieldTranslateButton implements GridField_ActionProvider, GridField_HT
                             $check = $i;
                         }
 
-                        if (strrpos($check, '.') !== false) {
+                        if (strrpos((string) $check, '.') !== false) {
                             $name = str_replace('.', '', $check);
 
                             $res[$name] = "{$ancestorClass}.summary_label_{$name}";
