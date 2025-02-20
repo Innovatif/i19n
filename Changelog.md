@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1
+- fixed RichFilterHeader::setFilterConfig() configuration. Translated names caused search fields to dissapear in GridField
+
 ## 2.0.0
 - upgrade for Silverstripe 5
 - upgrade for PHP 8.3

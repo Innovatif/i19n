@@ -111,10 +111,10 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
             ->setFilterConfig(
                 [
                     'Entity' => [
-                        'title' => _t(i19n::class . '.db_Entity', i19n::class . '.db_Entity')
+                        'title' => 'Entity'
                     ],
                     'Value' => [
-                        'title' => _t(i19n::class . '.db_Value', i19n::class . '.db_Value'),
+                        'title' => 'Value'
                         'filter' => 'PartialMatchFilter'
                     ],
                     'IsBackend' => [
