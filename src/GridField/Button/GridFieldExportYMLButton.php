@@ -152,7 +152,13 @@ class GridFieldExportYMLButton implements GridField_HTMLProvider, GridField_Acti
             // create temporary file
             $temp_file = tempnam(sys_get_temp_dir(), 'i19n');
 
-            $zip->open($temp_file);
+            // PHP::ZipArchive - since libzip 1.6.0, an empty file is not a valid archive any longer.
+            if( file_exists($temp_file))
+            {
+                unlink($temp_file);
+            }
+            
+            $zip->open($temp_file, \ZipArchive::CREATE);
 
             foreach ($list_translations as $locale => $messages) {
                 $content = $writer->getYaml($messages, $locale);

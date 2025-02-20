@@ -3,6 +3,7 @@
 ## 2.0.1
 - fixed RichFilterHeader::setFilterConfig() configuration. Translated names caused search fields to dissapear in GridField
 - removed table_name in import 
+- fix for ZipArchive: since libzip 1.6.0, an empty file is not a valid archive any longer
 
 ## 2.0.0
 - upgrade for Silverstripe 5
