@@ -361,15 +361,14 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
         $update_existing = isset($data['UpdateExisting']);
 
         foreach ($yaml as $locale => $list_translations) {
-            $table_name = Config::inst()->get(Locale::class, 'table_name');
-            $db_locale = Locale::get()->filter(['Locale:StartsWith:nocase' => $locale])->sort('"' . $table_name . '"."IsGlobalDefault" DESC, "' . $table_name . '"."Locale" ASC')->first();
+            $db_locale = Locale::get()->filter(['Locale:StartsWith:nocase' => $locale])->sort('"IsGlobalDefault" DESC, "Locale" ASC')->first();
 
             if (!$db_locale) {
                 $locale_parts = explode('_', $locale);
 
                 if (count($locale_parts) == 2) {
                     $locale = reset($locale_parts);
-                    $db_locale = Locale::get()->filter(['Locale:StartsWith:nocase' => $locale])->sort('"' . $table_name . '"."IsGlobalDefault" DESC, "' . $table_name . '"."Locale" ASC')->first();
+                    $db_locale = Locale::get()->filter(['Locale:StartsWith:nocase' => $locale])->sort('"IsGlobalDefault" DESC, "Locale" ASC')->first();
                 }
             }
 
