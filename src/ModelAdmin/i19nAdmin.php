@@ -114,7 +114,7 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
                         'title' => 'Entity'
                     ],
                     'Value' => [
-                        'title' => 'Value'
+                        'title' => 'Value',
                         'filter' => 'PartialMatchFilter'
                     ],
                     'IsBackend' => [
