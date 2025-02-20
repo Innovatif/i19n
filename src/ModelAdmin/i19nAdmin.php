@@ -378,29 +378,44 @@ class i19nAdmin extends LeftAndMain implements PermissionProvider
             }
 
             foreach ($list_translations as $entity => $translation_data) {
-                foreach ($translation_data as $sub_entity => $translation_value) {
-                    if (!is_array($translation_value)) {
-                        $entity_query = sprintf('%s.%s', $entity, $sub_entity);
+                // most common case
+                if( is_array($translation_data) )
+                {
+                    foreach ($translation_data as $sub_entity => $translation_value) {
+                        if (!is_array($translation_value)) {
+                            $entity_query = sprintf('%s.%s', $entity, $sub_entity);
 
-                        $result = $this->importForm_addValue($db_locale->Locale, $entity_query, $translation_value, $update_existing);
-
-                        if ($result === true) {
-                            $count_updates++;
-                        } elseif ($result === false) {
-                            $count_inserts++;
-                        }
-                    } else {
-                        foreach ($translation_value as $sub_key => $sub_trans_value) {
-                            $entity_query = sprintf('%s.%s.%s', $entity, $sub_entity, $sub_key);
-
-                            $result = $this->importForm_addValue($db_locale->Locale, $entity_query, $sub_trans_value, $update_existing);
+                            $result = $this->importForm_addValue($db_locale->Locale, $entity_query, $translation_value, $update_existing);
 
                             if ($result === true) {
                                 $count_updates++;
                             } elseif ($result === false) {
                                 $count_inserts++;
                             }
+                        } else {
+                            foreach ($translation_value as $sub_key => $sub_trans_value) {
+                                $entity_query = sprintf('%s.%s.%s', $entity, $sub_entity, $sub_key);
+
+                                $result = $this->importForm_addValue($db_locale->Locale, $entity_query, $sub_trans_value, $update_existing);
+
+                                if ($result === true) {
+                                    $count_updates++;
+                                } elseif ($result === false) {
+                                    $count_inserts++;
+                                }
+                            }
                         }
+                    }
+                } else {
+                    // unusual case
+                    // en:
+                    //   SomeKey: 'SomeValue'
+                    $result = $this->importForm_addValue($db_locale->Locale, $entity, $translation_data, $update_existing);
+
+                    if ($result === true) {
+                        $count_updates++;
+                    } elseif ($result === false) {
+                        $count_inserts++;
                     }
                 }
             }

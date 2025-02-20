@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.2
+- handle case of unusual translation string
+
 ## 2.0.1
 - fixed RichFilterHeader::setFilterConfig() configuration. Translated names caused search fields to dissapear in GridField
 - removed table_name in import 
